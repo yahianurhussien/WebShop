@@ -34,4 +34,11 @@ public class ShoppingController {
 		return new ResponseEntity<ShoppingCart>(cart, HttpStatus.OK);
 	}
 	
+	@GetMapping("/checkout/{cartId}")
+	public ResponseEntity<?> checkoutCart(@PathVariable String cartId) {
+		shoppingService.checkout(cartId);
+		return new ResponseEntity<String>("Order shipped Successfully", HttpStatus.OK);
+	}
+	
+	
 }

@@ -20,6 +20,10 @@ public class ShoppingService {
 	ProductCatalogService productCatalogService;
 	@Autowired
 	ShoppingCartRepository shoppingCartRepository;
+	
+	@Autowired
+	OrderService orderService;
+
 
 	public void addToCart(String cartId, String productnumber, int quantity) {
 		Product product = productCatalogService.getProduct(productnumber);
@@ -37,11 +41,18 @@ public class ShoppingService {
 		}		
 	}
 	
+	
 	public ShoppingCart getCart(String cartId) {
 		Optional<ShoppingCart> cart = shoppingCartRepository.findById(cartId);
 		if (cart.isPresent())
 		  return cart.get();
 		else
 			return null;
+	}
+	
+	public void checkout(String cartId){
+		ShoppingCart shoppingCart = getCart(cartId);
+		shoppingCart.print();
+		orderService.createOrder(cartId, shoppingCart);
 	}
 }
